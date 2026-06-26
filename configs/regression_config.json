@@ -1,0 +1,5 @@
+{
+  "stage": "end_to_end_ms",
+  "metric": "p95_ms",
+  "max_regression_percent": 10.0
+}

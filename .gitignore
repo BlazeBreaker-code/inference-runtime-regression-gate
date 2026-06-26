@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.vscode/
+
+.DS_Store
+Thumbs.db
+
+results/current.json
+results/*.tmp.json
