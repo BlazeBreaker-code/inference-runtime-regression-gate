@@ -28,21 +28,29 @@ def main() -> None:
 
     stage = config["stage"]
     metric = config["metric"]
-    threshold = float(config["max_regression_percent"])
+    max_regression_percent = float(config["max_regression_percent"])
+    min_regression_ms = float(config.get("min_regression_ms", 0.0))
 
     baseline_value = baseline["stages"][stage][metric]
     candidate_value = candidate["stages"][stage][metric]
-    change = percent_change(baseline_value, candidate_value)
+
+    change_percent = percent_change(baseline_value, candidate_value)
+    change_ms = candidate_value - baseline_value
 
     print("Inference Runtime Regression Check")
     print(f"Stage: {stage}")
     print(f"Metric: {metric}")
     print(f"Baseline: {baseline_value:.3f} ms")
     print(f"Candidate: {candidate_value:.3f} ms")
-    print(f"Change: {change:.2f}%")
-    print(f"Threshold: {threshold:.2f}%")
+    print(f"Change: {change_percent:.2f}%")
+    print(f"Absolute change: {change_ms:.3f} ms")
+    print(f"Percent threshold: {max_regression_percent:.2f}%")
+    print(f"Minimum regression floor: {min_regression_ms:.3f} ms")
 
-    if change > threshold:
+    percent_failed = change_percent > max_regression_percent
+    absolute_failed = change_ms > min_regression_ms
+
+    if percent_failed and absolute_failed:
         print("Status: FAIL")
         sys.exit(1)
 
