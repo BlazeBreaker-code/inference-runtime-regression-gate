@@ -1,4 +1,5 @@
 import torch
+import time
 
 
 class SyntheticInferenceModel(torch.nn.Module):
@@ -14,4 +15,5 @@ class SyntheticInferenceModel(torch.nn.Module):
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.net(x) + 1.0
+        time.sleep(0.010)
+        return self.net(x)
