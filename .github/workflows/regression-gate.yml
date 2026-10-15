@@ -41,6 +41,12 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r baseline/requirements.txt
 
+      - name: Check model output correctness
+        run: |
+          python candidate/scripts/check_correctness.py \
+            --baseline-root baseline \
+            --candidate-root candidate
+            
       - name: Create results directory
         run: mkdir -p results
 
